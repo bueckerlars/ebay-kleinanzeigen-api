@@ -11,22 +11,29 @@ async def get_inserate_klaz(browser_manager: PlaywrightManager,
                             radius: int = None,
                             min_price: int = None,
                             max_price: int = None,
-                            page_count: int = 1):
+                            page_count: int = 1,
+                            category: str = None,
+                            min_rooms: int = None,
+                            max_rooms: int = None,
+                            min_size: int = None,
+                            max_size: int = None):
     base_url = "https://www.ebay-kleinanzeigen.de"
 
     # Build the price filter part of the path
     price_path = ""
     if min_price is not None or max_price is not None:
-        # Convert prices to strings; if one is None, leave its place empty
         min_price_str = str(min_price) if min_price is not None else ""
         max_price_str = str(max_price) if max_price is not None else ""
         price_path = f"/preis:{min_price_str}:{max_price_str}"
 
-    # Build the search path with price and page information
-    search_path = f"{price_path}/s-seite"
+    # Build the category filter part of the path
+    category_path = f"/c-{category}" if category else ""
+
+    # Build the search path with price, category, and page information
+    search_path = f"{category_path}{price_path}/s-seite"
     search_path += ":{page}"
 
-    # Build query parameters as before
+    # Build query parameters
     params = {}
     if query:
         params['keywords'] = query
@@ -34,8 +41,12 @@ async def get_inserate_klaz(browser_manager: PlaywrightManager,
         params['locationStr'] = location
     if radius:
         params['radius'] = radius
+    if min_rooms is not None or max_rooms is not None:
+        params['rooms'] = f"{min_rooms or ''}:{max_rooms or ''}"
+    if min_size is not None or max_size is not None:
+        params['size'] = f"{min_size or ''}:{max_size or ''}"
 
-    # Construct the full URL and get it
+    # Construct the full URL
     search_url = base_url + search_path + ("?" + urlencode(params) if params else "")
 
     page = await browser_manager.new_context_page()

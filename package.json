@@ -1,0 +1,22 @@
+{
+  "name": "ebay-kleinanzeigen-api",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">   <h3 align=\"center\">Ebay Kleinanzeigen API</h3>",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bueckerlars/ebay-kleinanzeigen-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bueckerlars/ebay-kleinanzeigen-api/issues"
+  },
+  "homepage": "https://github.com/bueckerlars/ebay-kleinanzeigen-api#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^22.14.0"
+  }
+}
